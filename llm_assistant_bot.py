@@ -1,8 +1,8 @@
 import telebot
 from telebot import types
 
-
 from model_wrapper import ModelWrapper
+from config import BOT_TOKEN
 
 """
 get_text_messages - обработка любого текстового сообщения, в том числе того, что отправился при нажатии кнопки.
@@ -15,10 +15,11 @@ checkmodel
 model
 """
 
-TOKEN = "..."
+TOKEN = BOT_TOKEN
 bot = telebot.TeleBot(TOKEN)
 
-model_wrapper = ModelWrapper() # внутри класса описание
+model_wrapper = ModelWrapper()  # внутри класса описание
+
 
 @bot.message_handler(commands=['help'])
 def help(message):
@@ -75,5 +76,5 @@ def get_text_messages(message):
             bot.send_message(message.from_user.id, f"Проблемы с генерацией, ниже описаны ошибки.\n{result}")
 
 
-bot.polling(none_stop=True, interval=0) #обязательная для работы бота часть
+bot.polling(none_stop=True, interval=0)  # обязательная для работы бота часть
 # TODO: сделайте логирование запросов с указанием модели и параметров - это полезно
