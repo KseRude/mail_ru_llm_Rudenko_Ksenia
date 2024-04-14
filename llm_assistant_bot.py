@@ -2,7 +2,7 @@ import telebot
 from telebot import types
 
 from model_wrapper import ModelWrapper
-from config import BOT_TOKEN
+# from config import BOT_TOKEN
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -19,7 +19,7 @@ checkmodel
 model
 """
 
-TOKEN = BOT_TOKEN
+TOKEN = 'your token'
 bot = telebot.TeleBot(TOKEN)
 
 model_wrapper = ModelWrapper()  # внутри класса описание
