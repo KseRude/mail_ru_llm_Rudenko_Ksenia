@@ -11,6 +11,7 @@ from typing import List, Dict, Optional, Iterable, Tuple
 
 # from tqdm.notebook import tqdm
 
+
 class Tokenizer:
     def __init__(self,
                  token_pattern: str = '\w+|[\!\?\,\.\-\:]',
@@ -44,7 +45,6 @@ class Tokenizer:
         for token in special_tokens:
             self.vocab[token] = len(self.vocab)
         self.inverse_vocab = {ind: elem for elem, ind in self.vocab.items()}
-        return self
 
     def _tokenize(self, text: str, append_eos_token: bool = True) -> List[str]:
         text = self.text_preprocess(text)
@@ -140,14 +140,15 @@ class StatLM:  # (ModelTemplate):
         self.n_gramms_stat = defaultdict(int)
         self.nx_gramms_stat = defaultdict(int)
 
-    def get_token_by_ind(ind: int) -> str:
+    def get_token_by_ind(self, ind: int) -> str:
         return self.tokenizer.vocab.get(ind)
 
-    def get_ind_by_token(token: str) -> int:
+    def get_ind_by_token(self, token: str) -> int:
         return self.tokenizer.inverse_vocab.get(token, self.tokenizer.inverse_vocab[self.unk_token])
 
     def train(self, train_texts: List[str]):
-        for sentence in tqdm(train_texts, desc='train lines'):
+        # for sentence in tqdm(train_texts, desc='train lines'):
+        for sentence in train_texts:
             sentence_ind = self.tokenizer.encode(sentence)
             for i in range(len(sentence_ind) - self.context_size):
                 seq = tuple(sentence_ind[i: i + self.context_size - 1])

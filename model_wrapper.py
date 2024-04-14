@@ -3,6 +3,7 @@ import traceback
 import gpt_lm
 import stat_lm
 
+
 class ModelWrapper:
     """
     Класс, который инкапсулирует всю логику генерации текста по загруженной модели и тексту.
@@ -11,6 +12,7 @@ class ModelWrapper:
     load - подгрузка модели по нажатии кнопки выбора модели
     generate - генерация заданного текста текущей подгруженной моделью после команды /generate
     """
+
     def __init__(self):
         self.model = None
         self.current_model_name = None
@@ -44,7 +46,6 @@ class ModelWrapper:
         self.current_model_name = model_name
         return True, ""
 
-
     def generate(self, input_text: str) -> (bool, str):
         """ generate text by context 'input_text'. Return status and message. True if success """
         if self.model is None or self.current_model_name is None:
@@ -58,4 +59,3 @@ class ModelWrapper:
             return False, f"Inference result is not string: {type(result)}"
 
         return True, result
-
