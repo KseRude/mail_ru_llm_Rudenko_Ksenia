@@ -3,6 +3,10 @@ from telebot import types
 
 from model_wrapper import ModelWrapper
 from config import BOT_TOKEN
+import logging
+
+logging.basicConfig(level=logging.INFO)
+# logger = logging.Logger('Base logger', level=logging.INFO)
 
 """
 get_text_messages - обработка любого текстового сообщения, в том числе того, что отправился при нажатии кнопки.
@@ -60,21 +64,27 @@ def generate(message):
 
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
-    print(f'<{message.text}>')
+    # print(f'<{message.text}>')
     if message.text in ['StatLM', 'GPT', 'Llama']:
-        print(f'@{message.text}@')
+        logging.info(f'Chosen model: {message.text}')
         status, result = model_wrapper.load(message.text, test_inference=True)
         if status:
+            logging.info(f'Model {model_wrapper.current_model_name} successfully loaded\nParams: {model_wrapper.generate_kwargs}')
             bot.send_message(message.from_user.id, "Подгружено")
         else:
+            logging.info(f'Error: loading model {message.text} failed')
             bot.send_message(message.from_user.id, f"Проблемы с загрузкой модели, ниже описаны ошибки.\n{result}")
     else:
+        logging.info(f'Text: {message.text}')
         status, result = model_wrapper.generate(message.text)
         if status:
+            logging.info(f'Answer: {result}')
             bot.send_message(message.from_user.id, result)
         else:
+            logging.info(f'Error: {result}')
             bot.send_message(message.from_user.id, f"Проблемы с генерацией, ниже описаны ошибки.\n{result}")
 
 
+logging.info('BOT STARTED')
 bot.polling(none_stop=True, interval=0)  # обязательная для работы бота часть
 # TODO: сделайте логирование запросов с указанием модели и параметров - это полезно
