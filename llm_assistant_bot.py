@@ -69,7 +69,9 @@ def get_text_messages(message):
         logging.info(f'Chosen model: {message.text}')
         status, result = model_wrapper.load(message.text, test_inference=True)
         if status:
-            logging.info(f'Model {model_wrapper.current_model_name} successfully loaded\nParams: {model_wrapper.generate_kwargs}')
+            logging.info(
+                f'Model {model_wrapper.current_model_name} successfully loaded\n'
+                f'Params: {model_wrapper.generate_kwargs["generation_config"].get_params()}')
             bot.send_message(message.from_user.id, "Подгружено")
         else:
             logging.info(f'Error: loading model {message.text} failed')

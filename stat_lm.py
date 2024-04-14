@@ -120,6 +120,13 @@ class GenerationConfig:
         if self.decoding_strategy not in ['max', 'top-p']:
             raise ValueError('decoding_strategy')
 
+    def get_params(self):
+        return {'temperature': self.temperature,
+                'max_tokens': self.max_tokens,
+                'sample_top_p': self.sample_top_p,
+                'decoding_strategy': self.decoding_strategy,
+                'remove_special_tokens': self.remove_special_tokens}
+
 
 # np.random.seed(42)
 
