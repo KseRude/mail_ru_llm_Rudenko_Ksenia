@@ -1,5 +1,6 @@
 from stat_lm import StatLM, Tokenizer
 from datasets import load_dataset
+import model_wrapper
 
 
 def train_model():
@@ -16,5 +17,17 @@ def train_model():
     stat_lm_model.save_stat(stat_lm_path)
 
 
+def test_model():
+    model = model_wrapper.ModelWrapper()
+    status, result = model.load('StatLM')
+    if not status:
+        print(result)
+        return
+    input_text = 'поп пришел к бабе'
+    status, result = model.generate(input_text)
+    print(result)
+
+
 if __name__ == '__main__':
-    train_model()
+    #train_model()
+    test_model()

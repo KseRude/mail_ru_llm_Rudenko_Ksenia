@@ -4,6 +4,7 @@ from itertools import chain
 from datetime import datetime
 from collections import defaultdict
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 
 import numpy as np
 
@@ -87,7 +88,7 @@ class Tokenizer:
 
         return True
 
-    def load(self, path: str) -> bool:
+    def load(self, path: str) -> None:
         with open(path, 'rb') as fin:
             data = pickle.load(fin)
 
@@ -134,11 +135,11 @@ class GenerationConfig:
 class StatLM:  # (ModelTemplate):
     def __init__(self,
                  tokenizer: Tokenizer,
-                 context_size: int = 2,
-                 alpha: float = 0.1
+                 context_size: int = 5,
+                 alpha: float = 0.2
                  ):
 
-        assert context_size >= 2
+        assert context_size >= 5
 
         self.context_size = context_size
         self.tokenizer = tokenizer
@@ -294,9 +295,9 @@ def construct_model():
     код StatLM и Tokenizer должен совпадать с кодом из ноутбука, в которой происходило сохранение параметров модели и токенизатора
     """
     config = {
-        'temperature': 1.0,
-        'max_tokens': 32,
-        'sample_top_p': 0.9,
+        'temperature': 0.2,
+        'max_tokens': 7,
+        'sample_top_p': 0.4,
         'decoding_strategy': 'top-p',
     }
 
